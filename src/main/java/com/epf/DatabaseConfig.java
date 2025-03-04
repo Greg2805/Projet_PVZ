@@ -10,7 +10,8 @@ public class DatabaseConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/pvz?useSSL=false&serverTimezone=UTC");
+        //dataSource.setUrl("jdbc:mysql://localhost:3306/pvz?useSSL=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/pvz?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC");
         dataSource.setUsername("epf");
         dataSource.setPassword("MotDePasse123!");
         return dataSource;

@@ -1,8 +1,6 @@
 package com.epf.Dao;
 
 import com.epf.Model.Plante;
-
-
 import java.util.List;
 
 public interface PlanteDao {

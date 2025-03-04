@@ -15,7 +15,7 @@ public class ZombieDaoImpl implements ZombieDao {
 
     @Override
     public int createZombie(Zombie zombie) {
-        String sql = "INSERT INTO Zombie (nom, points_de_vie, attaque_par_seconde, " + "degat_attaque, " +
+        String sql = "INSERT INTO Zombie (nom, point_de_vie, attaque_par_seconde, degat_attaque, " +
                 "vitesse_de_deplacement, chemin_image) VALUES (?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, zombie.getNom(), zombie.getPoint_de_vie(), zombie.getAttaque_par_seconde(),
                 zombie.getDegat_attaque(), zombie.getVitesse_de_deplacement(), zombie.getChemin_image());
@@ -23,10 +23,10 @@ public class ZombieDaoImpl implements ZombieDao {
 
     @Override
     public Zombie getZombieById(int id) {
-        String sql = "SELECT * FROM Zombie WHERE id = ?";
+        String sql = "SELECT * FROM Zombie WHERE id_zombie = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
             Zombie zombie = new Zombie();
-            zombie.setId_zombie(rs.getInt("id"));
+            zombie.setId_zombie(rs.getInt("id_zombie"));
             zombie.setNom(rs.getString("nom"));
             zombie.setPoint_de_vie(rs.getInt("point_de_vie"));
             zombie.setAttaque_par_seconde(rs.getInt("attaque_par_seconde"));
@@ -72,7 +72,7 @@ public class ZombieDaoImpl implements ZombieDao {
 
     @Override
     public Zombie deleteZombie(Zombie zombie) {
-        String sql = "DELETE FROM Zombie WHERE id = ?";
+        String sql = "DELETE FROM Zombie WHERE id_zombie = ?";
         jdbcTemplate.update(sql, zombie.getId_zombie());
         return zombie;
     }
