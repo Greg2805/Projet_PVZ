@@ -55,7 +55,7 @@ public class ZombieDaoImpl implements ZombieDao {
     }
 
     @Override
-    public Zombie uptdateZombie(Zombie zombie) {
+    public Zombie updateZombie(Zombie zombie) {
         String sql = "UPDATE Zombie SET nom = ?, points_de_vie = ?, attaque_par_seconde = ?, degat_attaque = ?, " +
                 "vitesse_de_deplacement = ?, chemin_image = ? WHERE id=?";
         jdbcTemplate.update(sql,

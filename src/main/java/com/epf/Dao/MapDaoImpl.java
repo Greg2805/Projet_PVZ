@@ -70,10 +70,6 @@ public class MapDaoImpl implements MapDao{
     public boolean deleteMap(Map map) {
         String sql = "DELETE FROM Map WHERE id_map = ?";
         int i = jdbcTemplate.update(sql, map.getId());
-        if (i == 1){
-            return true;
-        }else{
-            return false;
-        }
+        return i == 1;
     }
 }
