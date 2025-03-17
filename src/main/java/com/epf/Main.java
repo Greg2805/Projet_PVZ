@@ -17,7 +17,7 @@ public class Main {
         // Créer un objet Zombie de test
 
         Zombie zombieSupp =  zombieDao.getZombieById(6);
-        zombieDao.deleteZombie(zombieSupp);
+        //zombieDao.deleteZombie(zombieSupp);
 
         // Fermer le contexte Spring
         context.close();

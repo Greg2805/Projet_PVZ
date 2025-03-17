@@ -53,9 +53,9 @@ public class ZombieController {
     }
 
     @DeleteMapping("{/id}")
-    public ZombieDTO deleteZombie(@PathVariable int id, @RequestBody Zombie zombie){
-        zombie.setId_zombie(id);
-        Zombie deletedZombie = zombieService.deleteZombie(zombie);
+    public ZombieDTO deleteZombie(@PathVariable int id){
+
+        Zombie deletedZombie = zombieService.deleteZombie(id);
         return convertToDto(deletedZombie);
     }
 

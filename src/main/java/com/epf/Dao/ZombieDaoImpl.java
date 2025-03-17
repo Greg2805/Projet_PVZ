@@ -71,11 +71,13 @@ public class ZombieDaoImpl implements ZombieDao {
     }
 
     @Override
-    public Zombie deleteZombie(Zombie zombie) {
+    public Zombie deleteZombie(int id) {
         String sql = "DELETE FROM Zombie WHERE id_zombie = ?";
-        jdbcTemplate.update(sql, zombie.getId_zombie());
-        return zombie;
+        jdbcTemplate.update(sql, id);
+        return getZombieById(id);
     }
+
+
 
     @Override
     public List<Zombie> getZombieByMap(int id) {
