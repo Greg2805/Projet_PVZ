@@ -42,7 +42,7 @@ public class PlanteDaoImpl implements PlanteDao{
     }
 
     @Override
-    public List<Plante> getAllPlante() {
+    public List<Plante> getAllPlantes() {
         String sql = "SELECT * FROM Plante";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Plante plante = new Plante();
@@ -61,7 +61,7 @@ public class PlanteDaoImpl implements PlanteDao{
     }
 
     @Override
-    public Plante uptdatePlante(Plante plante) {
+    public Plante updatePlante(Plante plante) {
         String sql = "UPDATE Plante SET nom = ?, points_de_vie = ?, attaque_par_seconde = ?, degat_attaque = ?, " +
                 "cout = ?, soleil_par_seconde = ?, effet = ?, chemin_image = ? WHERE id=?";
         jdbcTemplate.update(sql,
@@ -83,23 +83,5 @@ public class PlanteDaoImpl implements PlanteDao{
         String sql = "DELETE FROM Plante WHERE id = ?";
         jdbcTemplate.update(sql, plante.getId_plante());
         return plante;
-    }
-
-    @Override
-    public List<Plante> getPlanteByMap(int id) {
-        String sql = "SELECT * FROM Plante WHERE id_map = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            Plante plante = new Plante();
-            plante.setId_plante(rs.getInt("id"));
-            plante.setNom(rs.getString("nom"));
-            plante.setPoint_de_vie(rs.getInt("point_de_vie"));
-            plante.setAttaque_par_seconde(rs.getInt("attaque_par_seconde"));
-            plante.setDegat_attaque(rs.getInt("degat_attaque"));
-            plante.setCout(rs.getInt("cout"));
-            plante.setSoleil_par_seconde(rs.getDouble("soleil_par_seconde"));
-            plante.setEffet(Effet.fromString(rs.getString("effet")));
-            plante.setChemin_image(rs.getString("chemin_image"));
-            return plante;
-        });
     }
 }
