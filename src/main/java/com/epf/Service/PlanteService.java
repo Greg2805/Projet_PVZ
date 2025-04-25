@@ -32,7 +32,7 @@ public class PlanteService {
         return planteDao.updatePlante(plante);
     }
 
-    public Plante deletePlante(Plante plante) {
+    public boolean deletePlante(Plante plante) {
         return planteDao.deletePlante(plante);
     }
 }

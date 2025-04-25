@@ -2,9 +2,10 @@ package com.epf.Dao;
 
 import com.epf.Model.Zombie;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public class ZombieDaoImpl implements ZombieDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -43,7 +44,7 @@ public class ZombieDaoImpl implements ZombieDao {
         String sql = "SELECT * FROM Zombie";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Zombie zombie = new Zombie();
-            zombie.setId_zombie(rs.getInt("id"));
+            zombie.setId_zombie(rs.getInt("id_zombie"));
             zombie.setNom(rs.getString("nom"));
             zombie.setPoint_de_vie(rs.getInt("point_de_vie"));
             zombie.setAttaque_par_seconde(rs.getInt("attaque_par_seconde"));
@@ -56,8 +57,8 @@ public class ZombieDaoImpl implements ZombieDao {
 
     @Override
     public Zombie updateZombie(Zombie zombie) {
-        String sql = "UPDATE Zombie SET nom = ?, points_de_vie = ?, attaque_par_seconde = ?, degat_attaque = ?, " +
-                "vitesse_de_deplacement = ?, chemin_image = ? WHERE id=?";
+        String sql = "UPDATE Zombie SET nom = ?, point_de_vie = ?, attaque_par_seconde = ?, degat_attaque = ?, " +
+                "vitesse_de_deplacement = ?, chemin_image = ? WHERE id_zombie=?";
         jdbcTemplate.update(sql,
                 zombie.getNom(),
                 zombie.getPoint_de_vie(),
@@ -71,10 +72,12 @@ public class ZombieDaoImpl implements ZombieDao {
     }
 
     @Override
-    public Zombie deleteZombie(int id) {
+    public boolean deleteZombie(Zombie zombie) {
+
         String sql = "DELETE FROM Zombie WHERE id_zombie = ?";
-        jdbcTemplate.update(sql, id);
-        return getZombieById(id);
+        int i = jdbcTemplate.update(sql, zombie.getId_zombie());
+        return i == 1;
+
     }
 
 
@@ -84,7 +87,7 @@ public class ZombieDaoImpl implements ZombieDao {
         String sql = "SELECT * FROM Zombie WHERE id_map = ?";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Zombie zombie = new Zombie();
-            zombie.setId_zombie(rs.getInt("id"));
+            zombie.setId_zombie(rs.getInt("id_zombie"));
             zombie.setNom(rs.getString("nom"));
             zombie.setPoint_de_vie(rs.getInt("point_de_vie"));
             zombie.setAttaque_par_seconde(rs.getInt("attaque_par_seconde"));

@@ -1,26 +1,42 @@
 package com.epf;
 
-import com.epf.Dao.ZombieDao;
-import com.epf.Dao.ZombieDaoImpl;
-import com.epf.Model.Zombie;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import jakarta.servlet.Servlet;
+import org.apache.catalina.Context;
+import org.apache.catalina.startup.Tomcat;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+
+import java.io.File;
 
 public class Main {
-    public static void main(String[] args) {
-        // Initialiser le contexte Spring avec les classes de configuration et l'implémentation du DAO
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(DatabaseConfig.class, ZombieDaoImpl.class);
+    public static void main(String[] args) throws Exception {
+        // 1. Crée le serveur Tomcat
+        Tomcat tomcat = new Tomcat();
+        tomcat.setPort(8080);
 
-        // Récupérer le bean ZombieDao
-        ZombieDao zombieDao = context.getBean(ZombieDao.class);
+        // 2. Chemin du contexte webapp
+        String contextPath = "/CoursEpfBack";
+        // Utilise un dossier temporaire vide comme docBase
+        String docBase = new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+        Context context = tomcat.addWebapp(contextPath, docBase);
 
-        // Créer un objet Zombie de test
+        System.out.println("Webapp déployée à : " + contextPath);
 
-        Zombie zombieSupp =  zombieDao.getZombieById(6);
-        //zombieDao.deleteZombie(zombieSupp);
+        // 3. Crée et configure le contexte Spring
+        AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
+        appContext.scan("com.epf"); // scanne tous tes contrôleurs, services, configs...
+        appContext.refresh();
+        System.out.println("✅ Spring context initialisé !");
 
-        // Fermer le contexte Spring
-        context.close();
+
+        // 4. Crée le DispatcherServlet (contrôleur frontal Spring MVC)
+        Servlet dispatcherServlet = new DispatcherServlet(appContext);
+        Tomcat.addServlet(context, "dispatcher", dispatcherServlet);
+        context.addServletMappingDecoded("/", "dispatcher");
+
+        // 5. Démarre Tomcat
+        tomcat.start();
+        System.out.println("🚀 Tomcat en écoute sur http://localhost:8080" + contextPath);
+        tomcat.getServer().await();
     }
 }
-

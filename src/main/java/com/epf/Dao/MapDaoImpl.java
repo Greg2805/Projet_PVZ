@@ -3,10 +3,11 @@ package com.epf.Dao;
 import com.epf.Model.Map;
 import com.epf.Model.Plante;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.util.List;
-
+@Repository
 public class MapDaoImpl implements MapDao{
 
     private final JdbcTemplate jdbcTemplate;
@@ -54,7 +55,7 @@ public class MapDaoImpl implements MapDao{
     @Override
     public Map updateMap(Map map) {
 
-        String sql = "UPDATE Map SET ligne = ?, colonne = ?, chemin_map = ? WHERE id_map =?";
+        String sql = "UPDATE Map SET ligne = ?, colonne = ?, chemin_image = ? WHERE id_map =?";
 
         jdbcTemplate.update(sql,
                 map.getLigne(),

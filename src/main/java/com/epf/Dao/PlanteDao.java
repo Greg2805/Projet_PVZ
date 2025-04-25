@@ -8,7 +8,7 @@ public interface PlanteDao {
     Plante getPlanteById(int id);
     List<Plante> getAllPlantes();
     Plante updatePlante(Plante plante);
-    Plante deletePlante(Plante plante);
+    boolean deletePlante(Plante plante);
 
 
 

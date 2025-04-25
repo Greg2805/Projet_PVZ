@@ -6,7 +6,7 @@ public interface ZombieDao {
     Zombie getZombieById(int id);
     List<Zombie> getAllZombie();
     Zombie updateZombie(Zombie zombie);
-    Zombie deleteZombie(int id);
+    boolean deleteZombie(Zombie zombie);
     List<Zombie> getZombieByMap(int id);
 }
 

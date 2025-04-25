@@ -1,11 +1,14 @@
 package com.epf.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum Effet {
+    NORMAL("normal"),
     SLOW ("slow"),
     SLOW_LOW ("slow low"),
     SLOW_MEDIUM("slow medium"),
-    SLOW_HARD("slow hard");
+    SLOW_STOP("slow stop");
 
     private final String label;
 
@@ -17,7 +20,7 @@ public enum Effet {
         return label;
     }
 
-
+    @JsonCreator
     public static Effet fromString(String label) {
         for (Effet effet : Effet.values()) {
             if (effet.label.equalsIgnoreCase(label)) {

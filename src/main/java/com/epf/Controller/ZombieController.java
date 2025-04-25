@@ -1,5 +1,7 @@
 package com.epf.Controller;
+
 import com.epf.Dto.ZombieDTO;
+import com.epf.Model.Map;
 import com.epf.Model.Zombie;
 import com.epf.Service.ZombieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/zombies")
 public class ZombieController {
+
     private final ZombieService zombieService;
 
     @Autowired
@@ -18,45 +21,62 @@ public class ZombieController {
         this.zombieService = zombieService;
     }
 
-    private ZombieDTO convertToDto(Zombie zombie){
+    // Méthode pour convertir un Zombie en ZombieDTO
+    private ZombieDTO convertToDto(Zombie zombie) {
         ZombieDTO zombieDTO = new ZombieDTO();
+        zombieDTO.setId_zombie(zombie.getId_zombie());
         zombieDTO.setNom(zombie.getNom());
         zombieDTO.setPointDeVie(zombie.getPoint_de_vie());
+        zombieDTO.setAttaque_par_seconde(zombie.getAttaque_par_seconde());
+        zombieDTO.setDegat_attaque(zombie.getDegat_attaque());
+        zombieDTO.setVitesse_de_deplacement(zombie.getVitesse_de_deplacement());
+        zombieDTO.setChemin_image(zombie.getChemin_image());
+        zombieDTO.setId_map(zombie.getId_map());
         return zombieDTO;
     }
 
-    @GetMapping("")
+    // Endpoint de test
+    @GetMapping("/test")
+    public String test() {
+        return "Zombie Controller OK ✅";
+    }
+
+    // GET /zombies : récupère tous les zombies
+    @GetMapping(produces = "application/json")
     public List<ZombieDTO> getAllZombies() {
-        List<Zombie> zombies = zombieService.getAllZombie();
-        return zombies.stream()
+        return zombieService.getAllZombie()
+                .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    public ZombieDTO getZombieById(@PathVariable int id){
-        Zombie zombie = zombieService.getZombieById(id);
-        return convertToDto(zombie);
+    // GET /zombies/{id} : récupère un zombie par ID
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public ZombieDTO getZombieById(@PathVariable int id) {
+        return convertToDto(zombieService.getZombieById(id));
     }
 
-    @PostMapping("")
-    public int createZombie(@RequestBody Zombie zombie){
-         int i = zombieService.createZombie(zombie);
-         return i;
+    // POST /zombies : crée un nouveau zombie
+    @PostMapping(produces = "application/json", consumes = "application/json")
+    public int createZombie(@RequestBody Zombie zombie) {
+        return zombieService.createZombie(zombie);
     }
 
-    @PutMapping("{/id}")
-    public ZombieDTO updateZombie(@PathVariable int id, @RequestBody Zombie zombie){
+    // PUT /zombies/{id} : met à jour un zombie
+    @PutMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+    public ZombieDTO updateZombie(@PathVariable("id") int id, @RequestBody Zombie zombie) {
         zombie.setId_zombie(id);
         Zombie updatedZombie = zombieService.updateZombie(zombie);
         return convertToDto(updatedZombie);
     }
 
-    @DeleteMapping("{/id}")
-    public ZombieDTO deleteZombie(@PathVariable int id){
+    // DELETE /zombies/{id} : supprime un zombie
+    @DeleteMapping(value = "/{id}", produces = "application/json")
+    public ZombieDTO deleteZombie(@PathVariable("id") int id) {
+        Zombie deletedZombie = zombieService.getZombieById(id);
 
-        Zombie deletedZombie = zombieService.deleteZombie(id);
+        zombieService.deleteZombie(deletedZombie);
+
         return convertToDto(deletedZombie);
     }
-
 }

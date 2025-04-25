@@ -1,10 +1,7 @@
 package com.epf.Controller;
 import com.epf.Dto.MapDTO;
-import com.epf.Dto.PlanteDTO;
 import com.epf.Model.Map;
-import com.epf.Model.Plante;
 import com.epf.Service.MapService;
-import com.epf.Service.PlanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,21 +34,22 @@ public class MapController {
 
     @PostMapping("")
     public int createMap(@RequestBody Map map){
-        int i = mapService.createMap(map);
-        return i;
+        return mapService.createMap(map);
     }
 
-    @PutMapping("{/id}")
-    public MapDTO updateMap(@PathVariable int id, @RequestBody Map map){
+    @PutMapping("/{id}")
+    public MapDTO updateMap(@PathVariable("id") int id, @RequestBody Map map){
         map.setId(id);
         Map updatedMap = mapService.updateMap(map);
         return convertToDto(updatedMap);
     }
 
     @DeleteMapping("/{id}")
-    public MapDTO deleteMap(@PathVariable int id){
+    public MapDTO deleteMap(@PathVariable("id") int id){
         Map deletedMap = mapService.getMapById(id);
+
+        mapService.deleteMap(deletedMap);
+
         return convertToDto(deletedMap);
     }
-
 }

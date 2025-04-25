@@ -2,9 +2,10 @@ package com.epf.Service;
 import com.epf.Model.Zombie;
 import com.epf.Dao.ZombieDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ZombieService {
     private final ZombieDao zombieDao;
 
@@ -29,8 +30,8 @@ public class ZombieService {
         return zombieDao.updateZombie(zombie);
     }
 
-    public Zombie deleteZombie(int id){
-        return zombieDao.deleteZombie(id);
+    public boolean deleteZombie(Zombie zombie){
+        return zombieDao.deleteZombie(zombie);
     }
 
     public List<Zombie> getZombieByMap(Zombie zombie){
