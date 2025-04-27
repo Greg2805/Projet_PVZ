@@ -40,7 +40,7 @@ public class PlanteDaoImpl implements PlanteDao{
             if (effetLabel != null) {
                 plante.setEffet(Effet.fromString(effetLabel));
             } else {
-                plante.setEffet(null); // Ou une valeur par défaut comme Effet.NORMAL
+                plante.setEffet(null);
             }
             plante.setChemin_image(rs.getString("chemin_image"));
             return plante;

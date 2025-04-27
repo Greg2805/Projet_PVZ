@@ -21,7 +21,6 @@ public class ZombieController {
         this.zombieService = zombieService;
     }
 
-    // Méthode pour convertir un Zombie en ZombieDTO
     private ZombieDTO convertToDto(Zombie zombie) {
         ZombieDTO zombieDTO = new ZombieDTO();
         zombieDTO.setId_zombie(zombie.getId_zombie());
@@ -35,13 +34,12 @@ public class ZombieController {
         return zombieDTO;
     }
 
-    // Endpoint de test
+
     @GetMapping("/test")
     public String test() {
-        return "Zombie Controller OK ✅";
+        return "Zombie Controller OK ";
     }
 
-    // GET /zombies : récupère tous les zombies
     @GetMapping(produces = "application/json")
     public List<ZombieDTO> getAllZombies() {
         return zombieService.getAllZombie()
@@ -50,19 +48,18 @@ public class ZombieController {
                 .collect(Collectors.toList());
     }
 
-    // GET /zombies/{id} : récupère un zombie par ID
+
     @GetMapping(value = "/{id}", produces = "application/json")
     public ZombieDTO getZombieById(@PathVariable int id) {
         return convertToDto(zombieService.getZombieById(id));
     }
 
-    // POST /zombies : crée un nouveau zombie
+
     @PostMapping(produces = "application/json", consumes = "application/json")
     public int createZombie(@RequestBody Zombie zombie) {
         return zombieService.createZombie(zombie);
     }
 
-    // PUT /zombies/{id} : met à jour un zombie
     @PutMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
     public ZombieDTO updateZombie(@PathVariable("id") int id, @RequestBody Zombie zombie) {
         zombie.setId_zombie(id);
@@ -70,7 +67,6 @@ public class ZombieController {
         return convertToDto(updatedZombie);
     }
 
-    // DELETE /zombies/{id} : supprime un zombie
     @DeleteMapping(value = "/{id}", produces = "application/json")
     public ZombieDTO deleteZombie(@PathVariable("id") int id) {
         Zombie deletedZombie = zombieService.getZombieById(id);

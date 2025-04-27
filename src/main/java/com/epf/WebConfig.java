@@ -17,7 +17,7 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // 1. Forcer le convertisseur JSON (Jackson)
+
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter jacksonConverter = new MappingJackson2HttpMessageConverter();
@@ -25,13 +25,13 @@ public class WebConfig implements WebMvcConfigurer {
         converters.add(jacksonConverter);
     }
 
-    // 2. Configurer la négociation de contenu pour forcer le JSON
+
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.defaultContentType(MediaType.APPLICATION_JSON);
     }
 
-    // 3. Configurer CORS
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -41,14 +41,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true);
     }
 
-    // 4. Configurer le handler pour les ressources statiques (images)
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("/images/");
     }
 
-    // 5. (Sécurise) Force le `RequestMappingHandlerAdapter` avec le convertisseur Jackson
+
     @Bean
     public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
         RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
